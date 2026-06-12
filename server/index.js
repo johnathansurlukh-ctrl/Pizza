@@ -15,9 +15,9 @@ const transporter = nodemailer.createTransport({
 })
 
 const app = express()
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({ origin: ['http://localhost:5173', 'https://pizzorofficial.vercel.app'] }))
 app.use(express.json())
 
 // ─── PIZZAS ──────────────────────────────────────────────
