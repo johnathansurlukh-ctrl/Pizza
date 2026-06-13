@@ -99,7 +99,7 @@ export default function PizzaCard({ pizza, matchScore, showMatch = false, index 
         </div>
 
         <div className="flex gap-2">
-          <Link to="/recommendations" className="flex-1 text-center text-sm font-medium py-2.5 rounded-xl glass hover:border-[#FF6B00]/30 text-white/60 hover:text-white transition-all">
+          <Link to={`/pizza/${pizza.id}`} className="flex-1 text-center text-sm font-medium py-2.5 rounded-xl glass hover:border-[#FF6B00]/30 text-white/60 hover:text-white transition-all">
             Details
           </Link>
           <motion.button

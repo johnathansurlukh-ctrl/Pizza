@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ProtectedRoute from './components/ProtectedRoute'
 import Landing from './pages/Landing'
 import Quiz from './pages/Quiz'
 import Recommendations from './pages/Recommendations'
@@ -19,6 +20,8 @@ import Careers from './pages/Careers'
 import Press from './pages/Press'
 import Orders from './pages/Orders'
 import OrderTracking from './pages/OrderTracking'
+import Settings from './pages/Settings'
+import PizzaDetail from './pages/PizzaDetail'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -32,15 +35,17 @@ export default function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/recommendations" element={<Recommendations />} />
+            <Route path="/pizza/:id" element={<PizzaDetail />} />
             <Route path="/builder" element={<Builder />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/vote" element={<GroupVoting />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/:orderId" element={<OrderTracking />} />
+            <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+            <Route path="/orders/:orderId" element={<ProtectedRoute><OrderTracking /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/careers" element={<Careers />} />

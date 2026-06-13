@@ -7,6 +7,7 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  sendEmailVerification,
 } from 'firebase/auth'
 import { auth, googleProvider } from '../lib/firebase'
 
@@ -76,6 +77,7 @@ export function AuthProvider({ children }) {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(cred.user, { displayName: name })
+      sendEmailVerification(cred.user).catch(() => {})
       const count = incrementLoginCount(cred.user.uid)
       setUser(mapUser({ ...cred.user, displayName: name }, count))
       return {}

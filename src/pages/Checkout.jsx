@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useToast } from '../context/ToastContext'
+import { useAuth } from '../context/AuthContext'
 import { api } from '../api/client'
+import { saveOrderToFirestore } from '../lib/orders'
 
 const STORES = [
   { id: 'nyc',    city: 'New York City',  country: 'USA',   flag: '🇺🇸', currency: 'USD', deliveryMin: 25, deliveryMax: 40, tax: 0.08875 },
@@ -44,6 +46,7 @@ const USD_RATE = 83
 export default function Checkout() {
   const { items, subtotal, deliveryFee, total, discount, coupon, clearCart } = useCart()
   const { addToast } = useToast()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   const [step, setStep] = useState(0)
@@ -132,6 +135,9 @@ export default function Checkout() {
 
       const existing = JSON.parse(localStorage.getItem('pizzora-orders') || '[]')
       localStorage.setItem('pizzora-orders', JSON.stringify([savedOrder, ...existing]))
+
+      // Save to Firestore if logged in
+      if (user) saveOrderToFirestore(user.uid, savedOrder).catch(() => {})
 
       // Sync to backend in the background — failure doesn't block the user
       api.placeOrder({

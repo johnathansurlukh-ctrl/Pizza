@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const SOCIAL = [
@@ -86,6 +86,8 @@ const FloatingPizzas = () => (
 export default function Login() {
   const { login, googleLogin, resetPassword, user } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from || '/'
 
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
@@ -95,7 +97,7 @@ export default function Login() {
   const [loading, setLoading]   = useState(false)
   const [socialLoading, setSocialLoading] = useState(null)
 
-  useEffect(() => { if (user) navigate('/') }, [user])
+  useEffect(() => { if (user) navigate(from, { replace: true }) }, [user])
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -103,7 +105,7 @@ export default function Login() {
     setLoading(true); setError(''); setInfo('')
     const res = await login({ email, password })
     if (res.error) { setError(res.error); setLoading(false) }
-    else navigate('/')
+    else navigate(from, { replace: true })
   }
 
   const handleForgotPassword = async () => {
@@ -120,7 +122,7 @@ export default function Login() {
     const res = await googleLogin()
     setSocialLoading(null)
     if (res.error) setError(res.error)
-    else navigate('/')
+    else navigate(from, { replace: true })
   }
 
   return (

@@ -128,7 +128,7 @@ export default function Navbar() {
                       <div className="h-px bg-white/8 mb-1" />
                       {[
                         { icon: '📦', label: 'My Orders',   to: '/orders' },
-                        { icon: '⚙️', label: 'Settings',    to: '/' },
+                        { icon: '⚙️', label: 'Settings',    to: '/settings' },
                       ].map(item => (
                         <Link key={item.label} to={item.to} onClick={() => setUserMenu(false)}
                           className="flex items-center gap-3 px-3 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/5 text-sm transition-all">
@@ -193,9 +193,26 @@ export default function Navbar() {
                 <Link to="/signup" className="flex-1 btn-primary text-sm text-center py-2.5">Sign up</Link>
               </div>
             ) : (
-              <button onClick={handleLogout} className="mt-2 w-full text-red-400 text-sm py-2.5 glass rounded-xl hover:bg-red-500/10 transition-all">
-                🚪 Sign out
-              </button>
+              <div className="mt-2 pt-2 border-t border-white/8 space-y-1">
+                <div className="flex items-center gap-3 px-3 py-2">
+                  <div className={`w-7 h-7 ${avatarColor} rounded-full flex items-center justify-center text-white text-xs font-black`}>
+                    {user.avatar}
+                  </div>
+                  <div>
+                    <p className="text-white text-sm font-semibold">{user.name.split(' ')[0]}</p>
+                    <p className="text-white/40 text-xs">{user.email}</p>
+                  </div>
+                </div>
+                <Link to="/orders" className="flex items-center gap-3 px-3 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/5 text-sm transition-all">
+                  <span>📦</span> My Orders
+                </Link>
+                <Link to="/settings" className="flex items-center gap-3 px-3 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/5 text-sm transition-all">
+                  <span>⚙️</span> Settings
+                </Link>
+                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-red-400 hover:bg-red-500/10 text-sm transition-all">
+                  <span>🚪</span> Sign out
+                </button>
+              </div>
             )}
           </motion.div>
         )}
