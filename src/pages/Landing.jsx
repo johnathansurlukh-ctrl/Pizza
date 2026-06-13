@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useApi } from '../hooks/useApi'
 import { api } from '../api/client'
 import { reviews, stats } from '../data/reviews'
+import { pizzas as localPizzas } from '../data/pizzas'
 import PizzaCard from '../components/PizzaCard'
 import RatingStars from '../components/RatingStars'
 
@@ -63,8 +64,8 @@ export default function Landing() {
   const { data: featuredPizzas } = useApi(() => api.getPizzas({ limit: 4 }), [])
   const { data: topRated } = useApi(() => api.getPizzas({ sort: 'rating', limit: 4 }), [])
 
-  const displayFeatured = featuredPizzas
-  const displayTopRated = topRated
+  const displayFeatured = featuredPizzas || localPizzas.slice(0, 4)
+  const displayTopRated = topRated || [...localPizzas].sort((a, b) => b.rating - a.rating).slice(0, 4)
 
   return (
     <div className="min-h-screen">
